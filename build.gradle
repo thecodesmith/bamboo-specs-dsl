@@ -1,0 +1,16 @@
+apply plugin: 'groovy'
+
+group = 'com.thecodesmith.bamboo'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.8'
+    compile 'com.atlassian.bamboo:bamboo-specs-api:6.0.0'
+    compile 'com.atlassian.bamboo:bamboo-specs:6.0.0'
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
