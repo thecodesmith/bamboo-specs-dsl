@@ -1,6 +1,6 @@
 apply plugin: 'groovy'
 
-group = 'com.thecodesmith.bamboo'
+group 'com.thecodesmith.bamboo'
 
 repositories {
     jcenter()

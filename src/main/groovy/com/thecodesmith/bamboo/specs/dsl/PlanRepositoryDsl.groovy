@@ -1,6 +1,6 @@
 package com.thecodesmith.bamboo.specs.dsl
 
-import com.atlassian.bamboo.specs.api.builders.repository.VcsRepository
+import com.atlassian.bamboo.specs.api.builders.plan.Plan
 import com.atlassian.bamboo.specs.builders.repository.git.GitRepository
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
@@ -9,9 +9,9 @@ import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
  * @author Brian Stewart
  */
 class PlanRepositoryDsl {
-    List<VcsRepository> repositories = []
+    Plan plan
 
-    GitRepository gitRepository(@DelegatesTo(GitRepository) Closure closure) {
-        (GitRepository) addToList(repositories, runWithDelegate(closure, new GitRepository()))
+    GitRepository gitRepository(@DelegatesTo(GitRepositoryDsl) Closure builder) {
+        call(GitRepositoryDsl.gitRepository(builder), plan.&planRepositories)
     }
 }

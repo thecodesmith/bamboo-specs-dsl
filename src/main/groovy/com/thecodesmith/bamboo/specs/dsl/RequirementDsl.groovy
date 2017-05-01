@@ -1,7 +1,8 @@
 package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.api.builders.requirement.Requirement
-import com.thecodesmith.bamboo.specs.dsl.utils.DslUtils
+
+import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.runWithDelegate
 
 /**
  * @author Brian Stewart
@@ -12,7 +13,7 @@ class RequirementDsl {
         new Requirement(key)
     }
 
-    static Requirement requirement(String key, @DelegatesTo(Requirement) Closure closure) {
-        DslUtils.runWithDelegate(closure, new Requirement(key))
+    static Requirement requirement(String key, @DelegatesTo(Requirement) Closure builder) {
+        runWithDelegate(builder, new Requirement(key))
     }
 }

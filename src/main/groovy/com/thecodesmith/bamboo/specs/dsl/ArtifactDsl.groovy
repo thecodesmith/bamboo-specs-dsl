@@ -12,11 +12,11 @@ class ArtifactDsl {
         new Artifact(name)
     }
 
-    static Artifact artifact(@DelegatesTo(Artifact) Closure closure) {
-        runWithDelegate(closure, new Artifact())
+    static Artifact artifact(@DelegatesTo(Artifact) Closure builder) {
+        runWithDelegate(builder, new Artifact())
     }
 
-    static Artifact artifact(String name, @DelegatesTo(Artifact) Closure closure) {
-        runWithDelegate(closure, new Artifact(name))
+    static Artifact artifact(String name, @DelegatesTo(Artifact) Closure builder) {
+        runWithDelegate(builder, new Artifact(name))
     }
 }

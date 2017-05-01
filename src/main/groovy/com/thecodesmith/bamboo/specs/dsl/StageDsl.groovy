@@ -11,27 +11,19 @@ import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 class StageDsl {
     @Delegate Stage stage
 
-    private List<Job> jobs = []
-
     StageDsl(String name) {
         stage = new Stage(name)
     }
 
-    static Stage stage(String name, @DelegatesTo(StageDsl) Closure closure) {
-        def dsl = new StageDsl(name)
-        runWithDelegate(closure, dsl)
-
-        dsl.stage
+    static Stage stage(String name, @DelegatesTo(StageDsl) Closure builder) {
+        call(new StageDsl(name), builder).stage
     }
 
-    List<Job> jobs(Closure closure) {
-        runWithDelegate(closure, this)
-        stage.jobs(jobs as Job[])
-
-        jobs
+    void jobs(Closure builder) {
+        runWithDelegate(builder, this)
     }
 
-    Job job(String name, String key, @DelegatesTo(JobDsl) Closure closure) {
-        addToList(jobs, JobDsl.job(name, key, closure))
+    Job job(String name, String key, @DelegatesTo(JobDsl) Closure builder) {
+        call(JobDsl.job(name, key, builder), stage.&jobs)
     }
 }

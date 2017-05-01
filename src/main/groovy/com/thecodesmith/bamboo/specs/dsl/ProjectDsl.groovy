@@ -2,7 +2,8 @@ package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.api.builders.plan.Plan
 import com.atlassian.bamboo.specs.api.builders.project.Project
-import com.thecodesmith.bamboo.specs.dsl.utils.DslUtils
+
+import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 
 /**
  * @author Brian Stewart
@@ -16,15 +17,11 @@ class ProjectDsl {
                 .key(key)
     }
 
-    static Project project(String name, String key, @DelegatesTo(ProjectDsl) Closure closure) {
-        def dsl = new ProjectDsl(name, key)
-
-        DslUtils.runWithDelegate(closure, dsl)
-
-        dsl.project
+    static Project project(String name, String key, @DelegatesTo(ProjectDsl) Closure builder) {
+        runWithDelegate(builder, new ProjectDsl(name, key)).project
     }
 
-    Plan plan(String name, String key, @DelegatesTo(PlanDsl) Closure closure) {
-        PlanDsl.plan(project, name, key, closure)
+    Plan plan(String name, String key, @DelegatesTo(PlanDsl) Closure builder) {
+        PlanDsl.plan(project, name, key, builder)
     }
 }

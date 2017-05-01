@@ -14,82 +14,65 @@ import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 class JobDsl {
     @Delegate Job job
 
-    private List<Requirement> requirements = []
-    private List<Artifact> artifacts = []
-    private List<ArtifactSubscription> artifactSubscriptions = []
-
     JobDsl(String name, String key) {
         job = new Job(name, key)
     }
 
-    static Job job(String name, String key, @DelegatesTo(JobDsl) Closure closure) {
-        def dsl = new JobDsl(name, key)
-
-        runWithDelegate(closure, dsl)
-
-        dsl.job
+    static Job job(String name, String key, @DelegatesTo(JobDsl) Closure builder) {
+        runWithDelegate(builder, new JobDsl(name, key)).job
     }
 
-    List<Task> tasks(@DelegatesTo(TaskDsl) Closure closure) {
+    void requirements(Closure builder) {
+        runWithDelegate(builder, this)
+    }
+
+    Requirement requirement(String key) {
+        call(RequirementDsl.requirement(key), job.&requirements)
+    }
+
+    Requirement requirement(String key, @DelegatesTo(Requirement) Closure builder) {
+        call(RequirementDsl.requirement(key, builder), job.&requirements)
+    }
+
+    List<Task> tasks(@DelegatesTo(TaskDsl) Closure builder) {
         def dsl = new TaskDsl()
 
-        runWithDelegate(closure, dsl)
+        runWithDelegate(builder, dsl)
         job.tasks(dsl.tasks as Task[])
 
         dsl.tasks
     }
 
-    List<Task> finalTasks(@DelegatesTo(TaskDsl) Closure closure) {
+    List<Task> finalTasks(@DelegatesTo(TaskDsl) Closure builder) {
         def dsl = new TaskDsl()
 
-        runWithDelegate(closure, dsl)
+        runWithDelegate(builder, dsl)
         job.finalTasks(dsl.tasks as Task[])
 
         dsl.tasks
     }
 
-    List<Artifact> artifacts(Closure closure) {
-        runWithDelegate(closure, this)
-        job.artifacts(artifacts as Artifact[])
-
-        artifacts
+    void artifacts(Closure builder) {
+        runWithDelegate(builder, this)
     }
 
     Artifact artifact(String name) {
-        addToList(artifacts, ArtifactDsl.artifact(name))
+        call(ArtifactDsl.artifact(name), job.&artifacts)
     }
 
-    Artifact artifact(String name, @DelegatesTo(Artifact) Closure closure) {
-        addToList(artifacts, ArtifactDsl.artifact(name, closure))
+    Artifact artifact(String name, @DelegatesTo(Artifact) Closure builder) {
+        call(ArtifactDsl.artifact(name, builder), job.&artifacts)
     }
 
-    Artifact artifact(@DelegatesTo(Artifact) Closure closure) {
-        addToList(artifacts, ArtifactDsl.artifact(closure))
+    Artifact artifact(@DelegatesTo(Artifact) Closure builder) {
+        call(ArtifactDsl.artifact(builder), job.&artifacts)
     }
 
-    List<ArtifactSubscription> artifactSuscriptions(Closure closure) {
-        runWithDelegate(closure, this)
-        job.artifactSubscriptions(artifactSubscriptions as ArtifactSubscription[])
-
-        artifactSubscriptions
+    void artifactSuscriptions(Closure builder) {
+        runWithDelegate(builder, this)
     }
 
-    ArtifactSubscription artifactSubscription(@DelegatesTo(ArtifactSubscription) Closure closure) {
-        addToList(artifactSubscriptions, runWithDelegate(closure, new ArtifactSubscription()))
-    }
-
-    List<Requirement> requirements(Closure closure) {
-        runWithDelegate(closure, this)
-        job.requirements(requirements as Requirement[])
-
-        requirements
-    }
-
-    Requirement requirement(String key) {
-        RequirementDsl.requirement(key)
-    }
-
-    Requirement requirement(String key, @DelegatesTo(Requirement) Closure closure) {
-        addToList(requirements, RequirementDsl.requirement(key, closure))
+    ArtifactSubscription artifactSubscription(@DelegatesTo(ArtifactSubscription) Closure builder) {
+        buildAndCall(new ArtifactSubscription(), builder, job.&artifactSubscriptions)
     }
 }

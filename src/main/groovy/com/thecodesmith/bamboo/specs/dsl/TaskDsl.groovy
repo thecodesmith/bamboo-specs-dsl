@@ -1,9 +1,17 @@
 package com.thecodesmith.bamboo.specs.dsl
 
+import com.atlassian.bamboo.specs.api.builders.AtlassianModule
+import com.atlassian.bamboo.specs.api.builders.task.AnyTask
 import com.atlassian.bamboo.specs.api.builders.task.Task
 import com.atlassian.bamboo.specs.builders.task.ArtifactDownloaderTask
+import com.atlassian.bamboo.specs.builders.task.BaseSshTask
+import com.atlassian.bamboo.specs.builders.task.CleanWorkingDirectoryTask
+import com.atlassian.bamboo.specs.builders.task.MavenTask
 import com.atlassian.bamboo.specs.builders.task.ScriptTask
+import com.atlassian.bamboo.specs.builders.task.TestParserTask
 import com.atlassian.bamboo.specs.builders.task.VcsCheckoutTask
+import com.atlassian.bamboo.specs.model.task.TestParserTaskProperties.TestType
+
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 
 /**
@@ -12,15 +20,48 @@ import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 class TaskDsl {
     List<Task> tasks = []
 
-    VcsCheckoutTask vcsCheckoutTask(@DelegatesTo(VcsCheckoutTask) Closure closure) {
-        (VcsCheckoutTask) addToList(tasks, runWithDelegate(closure, new VcsCheckoutTask()))
+    AnyTask anyTask(@DelegatesTo(AnyTaskDsl) Closure builder) {
+        def dsl = new AnyTaskDsl()
+        runWithDelegate(builder, dsl)
+        tasks << dsl.task
+
+        dsl.task
     }
 
-    ScriptTask scriptTask(@DelegatesTo(ScriptTask) Closure closure) {
-        (ScriptTask) addToList(tasks, runWithDelegate(closure, new ScriptTask()))
+    ArtifactDownloaderTask artifactDownloaderTask(@DelegatesTo(ArtifactDownloaderTaskDsl) Closure builder) {
+        def task = runWithDelegate(builder, new ArtifactDownloaderTaskDsl()).task
+        tasks << task
+
+        task
     }
 
-    ArtifactDownloaderTask artifactDownloaderTask(@DelegatesTo(ArtifactDownloaderTaskDsl) Closure closure) {
-        (ArtifactDownloaderTask) addToList(tasks, runWithDelegate(closure, new ArtifactDownloaderTaskDsl()).task)
+    BaseSshTask baseSshTask(BaseSshTask baseSshTask) {
+        tasks << baseSshTask
+
+        baseSshTask
+    }
+
+    CleanWorkingDirectoryTask cleanWorkingDirectoryTask(@DelegatesTo(CleanWorkingDirectoryTask) Closure builder) {
+        buildAndCall(new CleanWorkingDirectoryTask(), builder, tasks.&add)
+    }
+
+    MavenTask mavenTask(@DelegatesTo(MavenTask) Closure builder) {
+        buildAndCall(new MavenTask(), builder, tasks.&add)
+    }
+
+    ScriptTask scriptTask(@DelegatesTo(ScriptTask) Closure builder) {
+        buildAndCall(new ScriptTask(), builder, tasks.&add)
+    }
+
+    TestParserTask testParserTask(TestType type, @DelegatesTo(TestParserTask) Closure builder) {
+        buildAndCall(new TestParserTask(type), builder, tasks.&add)
+    }
+
+    VcsCheckoutTask vcsCheckoutTask(@DelegatesTo(VcsCheckoutTaskDsl) Closure builder) {
+        def dsl = new VcsCheckoutTaskDsl()
+        runWithDelegate(builder, dsl)
+        tasks << dsl.task
+
+        dsl.task
     }
 }
