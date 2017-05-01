@@ -8,7 +8,6 @@ import com.atlassian.bamboo.specs.api.builders.requirement.Requirement.MatchType
 import static com.thecodesmith.bamboo.specs.dsl.ProjectDsl.project
 import static com.thecodesmith.bamboo.specs.dsl.PlanDsl.plan
 
-
 project = project('foo', 'FOO') {
     description 'project desc'
 }
@@ -101,10 +100,12 @@ plan = plan(project, 'bar', 'BAR') {
 // Set restEnabled to false, otherwise it will attempt to post to Bamboo
 RunnerSettings.restEnabled = false
 RunnerSettings.yamlDir = new File(".").toPath()
-bambooServer = new BambooServer("http://localhost:8085")
+server = new BambooServer("http://localhost:8085")
+//server = new BambooServer('https://localhost:8085', new SimpleUserPasswordCredentials('user', 'pass'))
+//server = new BambooServer('https://localhost:8085', new FileUserPasswordCredentials())
 
 // Write YAML to file in the current directory
-bambooServer.publish(plan)
+server.publish(plan)
 
 // Print YAML to console
 println BambooSpecSerializer.dump(plan)
