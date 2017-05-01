@@ -2,7 +2,8 @@ package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.api.builders.plan.Job
 import com.atlassian.bamboo.specs.api.builders.plan.Stage
-import com.thecodesmith.bamboo.specs.dsl.utils.DslUtils
+
+import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 
 /**
  * @author Brian Stewart
@@ -16,19 +17,21 @@ class StageDsl {
         stage = new Stage(name)
     }
 
+    static Stage stage(String name, @DelegatesTo(StageDsl) Closure closure) {
+        def dsl = new StageDsl(name)
+        runWithDelegate(closure, dsl)
+
+        dsl.stage
+    }
+
     List<Job> jobs(Closure closure) {
-        DslUtils.runWithDelegate(closure, this)
+        runWithDelegate(closure, this)
         stage.jobs(jobs as Job[])
 
         jobs
     }
 
     Job job(String name, String key, @DelegatesTo(JobDsl) Closure closure) {
-        def dsl = new JobDsl(name, key)
-
-        DslUtils.runWithDelegate(closure, dsl)
-        jobs << dsl.job
-
-        dsl.job
+        addToList(jobs, JobDsl.job(name, key, closure))
     }
 }

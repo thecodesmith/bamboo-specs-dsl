@@ -1,31 +1,13 @@
 package com.thecodesmith.bamboo.specs.dsl
 
-import com.atlassian.bamboo.specs.api.builders.plan.Plan
-import com.atlassian.bamboo.specs.api.builders.project.Project
 import com.atlassian.bamboo.specs.api.rsbs.RunnerSettings
 import com.atlassian.bamboo.specs.util.BambooServer
 import com.atlassian.bamboo.specs.util.BambooSpecSerializer
-import com.thecodesmith.bamboo.specs.dsl.utils.DslUtils
 import com.atlassian.bamboo.specs.api.builders.requirement.Requirement.MatchType
 
-// TODO: Make each element somehow globally available,
-// TODO: instead of only in nested closures
+import static com.thecodesmith.bamboo.specs.dsl.ProjectDsl.project
+import static com.thecodesmith.bamboo.specs.dsl.PlanDsl.plan
 
-Project project(String name, String key, @DelegatesTo(ProjectDsl) Closure closure) {
-    def dsl = new ProjectDsl(name, key)
-
-    DslUtils.runWithDelegate(closure, dsl)
-
-    dsl.project
-}
-
-Plan plan(Project project, String name, String key, @DelegatesTo(PlanDsl) Closure closure) {
-    def dsl = new PlanDsl(project, name, key)
-
-    DslUtils.runWithDelegate(closure, dsl)
-
-    dsl.plan
-}
 
 project = project('foo', 'FOO') {
     description 'project desc'

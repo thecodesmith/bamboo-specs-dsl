@@ -8,8 +8,6 @@ import com.thecodesmith.bamboo.specs.dsl.utils.DslUtils
  * @author Brian Stewart
  */
 class ProjectDsl {
-    private String name
-    private String key
     @Delegate Project project
 
     ProjectDsl(String name, String key) {
@@ -18,11 +16,15 @@ class ProjectDsl {
                 .key(key)
     }
 
-    Plan plan(String name, String key, @DelegatesTo(PlanDsl) Closure closure) {
-        def dsl = new PlanDsl(project, name, key)
+    static Project project(String name, String key, @DelegatesTo(ProjectDsl) Closure closure) {
+        def dsl = new ProjectDsl(name, key)
 
         DslUtils.runWithDelegate(closure, dsl)
 
-        dsl.plan
+        dsl.project
+    }
+
+    Plan plan(String name, String key, @DelegatesTo(PlanDsl) Closure closure) {
+        PlanDsl.plan(project, name, key, closure)
     }
 }

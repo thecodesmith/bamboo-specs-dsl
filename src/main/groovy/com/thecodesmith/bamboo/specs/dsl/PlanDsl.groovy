@@ -5,7 +5,8 @@ import com.atlassian.bamboo.specs.api.builders.plan.Plan
 import com.atlassian.bamboo.specs.api.builders.plan.Stage
 import com.atlassian.bamboo.specs.api.builders.project.Project
 import com.atlassian.bamboo.specs.api.builders.repository.VcsRepository
-import com.thecodesmith.bamboo.specs.dsl.utils.DslUtils
+
+import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 
 /**
  * @author Brian Stewart
@@ -20,20 +21,23 @@ class PlanDsl {
         plan = new Plan(project, name, key)
     }
 
+    static Plan plan(Project project, String name, String key, @DelegatesTo(PlanDsl) Closure closure) {
+        def dsl = new PlanDsl(project, name, key)
+
+        runWithDelegate(closure, dsl)
+
+        dsl.plan
+    }
+
     List<Stage> stages(Closure closure) {
-        DslUtils.runWithDelegate(closure, this)
+        runWithDelegate(closure, this)
         plan.stages(stages as Stage[])
 
         stages
     }
 
     Stage stage(String name, @DelegatesTo(StageDsl) Closure closure) {
-        def dsl = new StageDsl(name)
-
-        DslUtils.runWithDelegate(closure, dsl)
-        stages << dsl.stage
-
-        dsl.stage
+        addToList(stages, StageDsl.stage(name, closure))
     }
 
     void linkedRepositories(String... repositories) {
@@ -43,24 +47,24 @@ class PlanDsl {
     List<VcsRepository> planRepositories(@DelegatesTo(PlanRepositoryDsl) Closure closure) {
         def dsl = new PlanRepositoryDsl()
 
-        DslUtils.runWithDelegate(closure, dsl)
+        runWithDelegate(closure, dsl)
         plan.planRepositories(dsl.repositories as VcsRepository[])
 
         dsl.repositories
     }
 
     void variables(Closure closure) {
-        DslUtils.runWithDelegate(closure, this)
+        runWithDelegate(closure, this)
         plan.variables(variables as Variable[])
 
         variables
     }
 
-    Variable variable(String name, String variable) {
-        def it = new Variable(name, variable)
+    Variable variable(String name, String value) {
+        addToList(variables, new Variable(name, value))
+    }
 
-        variables << it
-
-        it
+    Variable variable(Variable variable) {
+        addToList(variables, variable)
     }
 }
