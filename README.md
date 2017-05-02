@@ -23,18 +23,18 @@ configurations. The library is available through Bintray's JCenter.
 
 ### Grab
 
-    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.1.0-SNAPSHOT')
+    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.0')
 
 ### Gradle
 
-    compile 'com.thecodesmith.bamboo:bamboo-specs-dsl:0.1.0-SNAPSHOT'
+    compile 'com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.0'
 
 ### Maven
 
     <dependency>
         <groupId>com.thecodesmith.bamboo</groupId>
         <artifactId>bamboo-specs-dsl</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.10.0</version>
     </dependency>
 
 
@@ -44,35 +44,35 @@ This list shows the already supported features by the Bamboo Specs DSL.
 This list of features is taken directly from the [Bamboo Specs
 documentation](https://docs.atlassian.com/bamboo-specs-docs/latest).
 
-- [ ] Projects
-    - [ ] Description
-    - [ ] Plans
+- [x] Projects
+    - [x] Description
+    - [x] Plans
 - [ ] Plans
-    - [ ] Description
-    - [ ] Stages
-    - [ ] Linked repositories
-    - [ ] Plan repositories
+    - [x] Description
+    - [x] Stages
+    - [x] Linked repositories
+    - [x] Plan repositories
     - [ ] Triggers
     - [ ] Plan branch management
     - [ ] Dependencies
-    - [ ] Variables
+    - [x] Variables
     - [ ] Permissions
-    - [ ] Enabled
+    - [x] Enabled
 - [ ] Plan branches
     - [ ] Automatic branch management
     - [ ] Manual branch management
     - [ ] Automatic branch merging
     - [ ] Branch notifications
     - [ ] Overriding branch settings
-- [ ] Stages
-    - [ ] Description
-    - [ ] Jobs
-    - [ ] Manual
-- [ ] Jobs
-    - [ ] Tasks
-    - [ ] Artifacts
-    - [ ] Artifact subscriptions
-    - [ ] Requirements
+- [x] Stages
+    - [x] Description
+    - [x] Jobs
+    - [x] Manual
+- [x] Jobs
+    - [x] Tasks
+    - [x] Artifacts
+    - [x] Artifact subscriptions
+    - [x] Requirements
 - [ ] Tasks
     - [ ] Artifact downloader
     - [ ] Clean working directory
@@ -84,29 +84,29 @@ documentation](https://docs.atlassian.com/bamboo-specs-docs/latest).
     - [ ] Build tasks
     - [ ] Final tasks
 - [ ] Repositories
-    - [ ] Multiple repositories
-    - [ ] Plan & linked repositories
-    - [ ] Git repositories
-    - [ ] Bitbucket Server Git repositories
+    - [x] Multiple repositories
+    - [x] Plan & linked repositories
+    - [x] Git repositories
+    - [x] Bitbucket Server Git repositories
     - [ ] SVN
     - [ ] Mercurial
     - [ ] CVS
 - [ ] Artifacts
-    - [ ] Defining an artifact
-    - [ ] Sharing an artifact
-    - [ ] Using a shared artifact in another job
+    - [x] Defining an artifact
+    - [x] Sharing an artifact
+    - [x] Using a shared artifact in another job
     - [ ] Using a shared artifact in another plan
     - [ ] Sharing an artifact to a deployment plan
 - [ ] Build triggers
-    - [ ] Polling the repository for changes
-    - [ ] Repository triggers a build on commit
+    - [x] Polling the repository for changes
+    - [x] Repository triggers a build on commit
     - [ ] Cron-based scheduling
     - [ ] Conditional build triggers
     - [ ] Running a build when another plan has completed successfully
     - [ ] Multiple triggers
-    - [ ] No triggers
+    - [x] No triggers
 - [ ] Requirements
-- [ ] Variables
+- [x] Variables
 - [ ] Utilities
 
 
