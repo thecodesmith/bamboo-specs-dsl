@@ -1,7 +1,9 @@
 package com.thecodesmith.bamboo.specs.dsl
 
+import com.atlassian.bamboo.specs.api.builders.repository.VcsChangeDetection
 import com.atlassian.bamboo.specs.builders.repository.git.GitRepository
 
+import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.buildAndCall
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.runWithDelegate
 
 /**
@@ -21,8 +23,16 @@ class GitRepositoryDsl {
         dsl.repository
     }
 
-    void authentication(@DelegatesTo(GitRepositoryAuthenticationDsl) Closure builder) {
+    def authentication(@DelegatesTo(GitRepositoryAuthenticationDsl) Closure builder) {
         def dsl = new GitRepositoryAuthenticationDsl(repository)
         runWithDelegate(builder, dsl)
+    }
+
+    void changeDetection(Closure builder) {
+        runWithDelegate(builder, this)
+    }
+
+    VcsChangeDetection vcsChangeDetection(@DelegatesTo(VcsChangeDetection) Closure builder) {
+        buildAndCall(new VcsChangeDetection(), builder, repository.&changeDetection)
     }
 }

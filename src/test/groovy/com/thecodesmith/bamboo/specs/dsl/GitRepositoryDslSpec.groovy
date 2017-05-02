@@ -1,7 +1,8 @@
 package com.thecodesmith.bamboo.specs.dsl
 
+import com.atlassian.bamboo.specs.api.builders.repository.VcsChangeDetection.FileFilteringOption
+import com.atlassian.bamboo.specs.api.model.repository.VcsChangeDetectionProperties
 import com.atlassian.bamboo.specs.builders.repository.viewer.BitbucketServerRepositoryViewer
-import com.atlassian.bamboo.specs.builders.repository.viewer.FishEyeRepositoryViewer
 import com.atlassian.bamboo.specs.model.repository.git.SharedCredentialsAuthenticationProperties
 import com.atlassian.bamboo.specs.model.repository.git.SshPrivateKeyAuthenticationProperties
 import com.atlassian.bamboo.specs.model.repository.git.UserPasswordAuthenticationProperties
@@ -10,7 +11,6 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.time.Duration
-import java.util.concurrent.TimeUnit
 
 import static com.thecodesmith.bamboo.specs.dsl.GitRepositoryDsl.gitRepository
 import static com.thecodesmith.bamboo.specs.dsl.utils.TestUtils.*
@@ -213,8 +213,33 @@ class GitRepositoryDslSpec extends Specification {
         expect:
         toMap(repo)['commandTimeout'] == Duration.ofMinutes(10)
     }
-    
+
     def 'Change detection'() {
-        assert false, 'todo'
+        given:
+        def repo = gitRepository {
+            changeDetection {
+                vcsChangeDetection {
+                    quietPeriodEnabled true
+                    quietPeriod Duration.ofMinutes(1)
+                    quietPeriodMaxRetries 10
+                    changesetFilterPatternRegex '.*draft.*'
+                    filterFilePatternOption FileFilteringOption.INCLUDE_ONLY
+                    filterFilePatternRegex '.*\\.java'
+                }
+            }
+        }
+
+        when:
+        def props = toMap(repo)
+        def cd = toMap(props['vcsChangeDetection'])
+
+        then:
+        props['vcsChangeDetection'] instanceof VcsChangeDetectionProperties
+        cd['quietPeriodEnabled'] == true
+        cd['quietPeriod'] == Duration.ofMinutes(1)
+        cd['maxRetries'] == 10
+        cd['changesetFilterPatternRegex'] == '.*draft.*'
+        cd['filterFilePatternOption'] == FileFilteringOption.INCLUDE_ONLY
+        cd['filterFilePatternRegex'] == '.*\\.java'
     }
 }
