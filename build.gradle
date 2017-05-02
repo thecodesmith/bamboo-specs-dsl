@@ -1,4 +1,5 @@
 plugins {
+    id "com.jfrog.bintray" version "1.7.3"
     id 'com.github.kt3k.coveralls' version '2.8.1'
 }
 
@@ -20,9 +21,46 @@ dependencies {
     testCompile 'cglib:cglib-nodep:2.2'
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
         html.enabled true
+    }
+}
+
+bintray {
+    dryRun = true
+
+    user = project.properties['bintrayUser']   ?: System.getenv('BINTRAY_USER')
+    key  = project.properties['bintrayApiKey'] ?: System.getenv('BINTRAY_API_KEY')
+    configurations = ['archives']
+
+    pkg {
+        repo = 'maven'
+        name = 'bamboo-specs-dsl'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/thecodesmith/bamboo-specs-dsl.git'
+
+        version {
+            name = project.version
+            desc = 'Bamboo Specs DSL'
+            released = new Date()
+            vcsTag = project.version
+        }
     }
 }
