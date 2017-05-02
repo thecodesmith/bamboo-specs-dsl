@@ -72,6 +72,23 @@ class JobDslSpec extends Specification {
                     }
                 }
 
+                sshTask {
+                    host '12.34.56.78'
+                    port 2200
+                    username 'admin'
+                    authenticateWithKey 'key'
+                    command 'ls -al'
+                }
+
+                scpTask {
+                    host '12.34.78.90'
+                    port 2222
+                    username 'admin'
+                    authenticateWithKey 'key'
+                    fromArtifact 'artifact-name'
+                    toRemotePath '/var/libs/artifact-name'
+                }
+
                 mavenTask {
                     goal 'clean install'
                     hasTests true
@@ -100,6 +117,6 @@ class JobDslSpec extends Specification {
         def props = toMap(job)
 
         then:
-        props['tasks'].size() == 9
+        props['tasks'].size() == 11
     }
 }

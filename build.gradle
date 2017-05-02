@@ -12,4 +12,5 @@ dependencies {
     compile 'com.atlassian.bamboo:bamboo-specs:6.0.0'
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'cglib:cglib-nodep:2.2'
 }

@@ -1,5 +1,6 @@
 package com.thecodesmith.bamboo.specs.dsl
 
+import com.atlassian.bamboo.specs.api.builders.Variable
 import com.atlassian.bamboo.specs.api.builders.project.Project
 import com.atlassian.bamboo.specs.api.model.VariableProperties
 import com.atlassian.bamboo.specs.api.model.plan.dependencies.DependenciesProperties
@@ -20,7 +21,7 @@ class PlanDslSpec extends Specification {
     @Shared Project project
 
     def setupSpec() {
-        project = GroovyMock(Project)
+        project = Mock(Project)
     }
 
     def plan(@DelegatesTo(PlanDsl) Closure builder) {
@@ -74,6 +75,20 @@ class PlanDslSpec extends Specification {
 
         expect:
         def props = toMap(plan)['variables'][0]
+        props['name'] == 'foo'
+        props['value'] == '42'
+    }
+
+    def 'Plan with a variable of class Variable'() {
+        given:
+        def plan = plan {
+            variable new Variable('foo', '42')
+        }
+
+        when:
+        def props = toMap(plan)['variables'][0]
+
+        then:
         props['name'] == 'foo'
         props['value'] == '42'
     }
@@ -154,8 +169,15 @@ class PlanDslSpec extends Specification {
 
             planRepositories {
                 gitRepository {
-                    name 'github'
+                    name 'bar'
                     url 'ssh://git@github.com:foo/bar'
+                }
+
+                bitbucketServerRepository {
+                    name 'baz'
+                    server { applicationLink { name 'bitbucket-server' } }
+                    projectKey 'PROJ'
+                    repositorySlug 'baz'
                 }
             }
         }
@@ -164,7 +186,7 @@ class PlanDslSpec extends Specification {
         def props = toMap(plan)
 
         then:
-        props['repositories'].size() == 3
+        props['repositories'].size() == 4
     }
 
     def 'Plan triggers'() {

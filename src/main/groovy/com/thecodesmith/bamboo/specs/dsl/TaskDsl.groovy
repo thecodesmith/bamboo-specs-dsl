@@ -3,11 +3,14 @@ package com.thecodesmith.bamboo.specs.dsl
 import com.atlassian.bamboo.specs.api.builders.AtlassianModule
 import com.atlassian.bamboo.specs.api.builders.task.AnyTask
 import com.atlassian.bamboo.specs.api.builders.task.Task
+import com.atlassian.bamboo.specs.builders.repository.git.SshPrivateKeyAuthentication
 import com.atlassian.bamboo.specs.builders.task.ArtifactDownloaderTask
 import com.atlassian.bamboo.specs.builders.task.BaseSshTask
 import com.atlassian.bamboo.specs.builders.task.CleanWorkingDirectoryTask
 import com.atlassian.bamboo.specs.builders.task.MavenTask
+import com.atlassian.bamboo.specs.builders.task.ScpTask
 import com.atlassian.bamboo.specs.builders.task.ScriptTask
+import com.atlassian.bamboo.specs.builders.task.SshTask
 import com.atlassian.bamboo.specs.builders.task.TestParserTask
 import com.atlassian.bamboo.specs.builders.task.VcsCheckoutTask
 import com.atlassian.bamboo.specs.model.task.TestParserTaskProperties.TestType
@@ -35,12 +38,6 @@ class TaskDsl {
         task
     }
 
-    BaseSshTask baseSshTask(BaseSshTask baseSshTask) {
-        tasks << baseSshTask
-
-        baseSshTask
-    }
-
     CleanWorkingDirectoryTask cleanWorkingDirectoryTask(@DelegatesTo(CleanWorkingDirectoryTask) Closure builder) {
         buildAndCall(new CleanWorkingDirectoryTask(), builder, tasks.&add)
     }
@@ -49,8 +46,16 @@ class TaskDsl {
         buildAndCall(new MavenTask(), builder, tasks.&add)
     }
 
+    ScpTask scpTask(@DelegatesTo(ScpTask) Closure builder) {
+        buildAndCall(new ScpTask(), builder, tasks.&add)
+    }
+
     ScriptTask scriptTask(@DelegatesTo(ScriptTask) Closure builder) {
         buildAndCall(new ScriptTask(), builder, tasks.&add)
+    }
+
+    SshTask sshTask(@DelegatesTo(SshTask) Closure builder) {
+        buildAndCall(new SshTask(), builder, tasks.&add)
     }
 
     TestParserTask testParserTask(TestType type, @DelegatesTo(TestParserTask) Closure builder) {
