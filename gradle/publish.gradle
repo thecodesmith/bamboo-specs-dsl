@@ -1,0 +1,66 @@
+def pomConfig = {
+    licenses {
+        license {
+            name 'The Apache Software License, Version 2.0'
+            url  'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+        }
+    }
+
+    developers {
+        developer {
+            id    'thecodesmith'
+            name  'Brian Stewart'
+            email 'brian@thecodesmith.com'
+        }
+    }
+
+    scm {
+        connection          'scm:git:https://github.com/thecodesmith/bamboo-specs-dsl.git'
+        developerConnection 'scm:git:https://github.com/thecodesmith/bamboo-specs-dsl.git'
+        url                 'https://github.com/thecodesmith/bamboo-specs-dsl'
+    }
+}
+
+publishing {
+    publications {
+        distribution(MavenPublication) {
+            groupId    project.group
+            artifactId project.name
+            version    project.version
+
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode 'name',        'Bamboo Specs DSL'
+                root.appendNode 'description', 'A Groovy DSL for writing Bamboo Specs'
+                root.appendNode 'url',         'https://github.com/thecodesmith/bamboo-specs-dsl'
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+    user = project.properties['bintrayUser']   ?: System.getenv('BINTRAY_USER')
+    key  = project.properties['bintrayApiKey'] ?: System.getenv('BINTRAY_API_KEY')
+
+    publications = ['distribution']
+
+    pkg {
+        repo = 'maven'
+        name = 'bamboo-specs-dsl'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/thecodesmith/bamboo-specs-dsl.git'
+
+        version {
+            name = project.version
+            desc = 'Bamboo Specs DSL'
+            released = new Date()
+            vcsTag = project.version
+        }
+    }
+}

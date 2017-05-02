@@ -5,6 +5,7 @@ plugins {
 
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
 
 group 'com.thecodesmith.bamboo'
 
@@ -43,22 +44,4 @@ jacocoTestReport {
     }
 }
 
-bintray {
-    user = project.properties['bintrayUser']   ?: System.getenv('BINTRAY_USER')
-    key  = project.properties['bintrayApiKey'] ?: System.getenv('BINTRAY_API_KEY')
-    configurations = ['archives']
-
-    pkg {
-        repo = 'maven'
-        name = 'bamboo-specs-dsl'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/thecodesmith/bamboo-specs-dsl.git'
-
-        version {
-            name = project.version
-            desc = 'Bamboo Specs DSL'
-            released = new Date()
-            vcsTag = project.version
-        }
-    }
-}
+apply from: 'gradle/publish.gradle'
