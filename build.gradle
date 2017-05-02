@@ -44,8 +44,6 @@ jacocoTestReport {
 }
 
 bintray {
-    dryRun = true
-
     user = project.properties['bintrayUser']   ?: System.getenv('BINTRAY_USER')
     key  = project.properties['bintrayApiKey'] ?: System.getenv('BINTRAY_API_KEY')
     configurations = ['archives']
