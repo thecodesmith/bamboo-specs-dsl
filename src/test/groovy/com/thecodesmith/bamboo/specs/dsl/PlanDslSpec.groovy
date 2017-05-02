@@ -35,7 +35,6 @@ class PlanDslSpec extends Specification {
         def props = toMap(plan)
 
         then:
-        props.each { println it }
         props['name'] == name
         props['key']['key'] == key
     }

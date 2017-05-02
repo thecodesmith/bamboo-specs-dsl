@@ -28,7 +28,7 @@ class GitRepositoryDsl {
         runWithDelegate(builder, dsl)
     }
 
-    void changeDetection(Closure builder) {
+    void changeDetection(@DelegatesTo(GitRepositoryDsl) Closure builder) {
         runWithDelegate(builder, this)
     }
 

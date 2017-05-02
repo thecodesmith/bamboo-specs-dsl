@@ -14,7 +14,6 @@ class ProjectDslSpec extends Specification {
 
         when:
         def props = TestUtils.toMap(project)
-        println props
 
         then:
         props['name'] == 'foo'
