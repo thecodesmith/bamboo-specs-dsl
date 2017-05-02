@@ -6,6 +6,9 @@ Configuration as code, made simple.
 
 [![Build
 Status](https://travis-ci.org/thecodesmith/bamboo-specs-dsl.svg?branch=master)](https://travis-ci.org/thecodesmith/bamboo-specs-dsl)
+[![Coverage
+Status](https://coveralls.io/repos/github/thecodesmith/bamboo-specs-dsl/badge.svg?branch=master)](https://coveralls.io/github/thecodesmith/bamboo-specs-dsl?branch=master)
+[![codecov](https://codecov.io/gh/thecodesmith/bamboo-specs-dsl/branch/master/graph/badge.svg)](https://codecov.io/gh/thecodesmith/bamboo-specs-dsl)
 
 **Note:** This project is still very much in the experimental stage. Contribution by
 way of ideas, suggestions and pull requests is very welcome. The plan is to get
