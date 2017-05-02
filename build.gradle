@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.8'
+    compile 'org.codehaus.groovy:groovy-all:2.4.11'
     compile 'com.atlassian.bamboo:bamboo-specs-api:6.0.0'
     compile 'com.atlassian.bamboo:bamboo-specs:6.0.0'
 

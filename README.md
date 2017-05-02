@@ -4,6 +4,8 @@ A Groovy DSL for writing [Bamboo
 Specs](https://confluence.atlassian.com/bamboo/bamboo-specs-894743906.html).
 Configuration as code, made simple.
 
+[![Build
+Status](https://travis-ci.org/thecodesmith/bamboo-specs-dsl.svg?branch=master)](https://travis-ci.org/thecodesmith/bamboo-specs-dsl)
 
 **Note:** This project is still very much in the experimental stage. Contribution by
 way of ideas, suggestions and pull requests is very welcome. The plan is to get
