@@ -1,15 +1,23 @@
 package com.thecodesmith.bamboo.specs.dsl
 
+import com.atlassian.bamboo.specs.api.builders.plan.artifact.Artifact
+import com.atlassian.bamboo.specs.api.builders.requirement.Requirement
+import com.atlassian.bamboo.specs.api.builders.requirement.Requirement.MatchType
+import com.atlassian.bamboo.specs.api.model.plan.artifact.ArtifactProperties
+import com.atlassian.bamboo.specs.api.model.plan.artifact.ArtifactSubscriptionProperties
+import com.atlassian.bamboo.specs.api.model.plan.requirement.RequirementProperties
 import com.atlassian.bamboo.specs.model.task.TestParserTaskProperties
 import spock.lang.Specification
 
+import static com.thecodesmith.bamboo.specs.dsl.JobDsl.job
 import static com.thecodesmith.bamboo.specs.dsl.utils.TestUtils.toMap
 
 class JobDslSpec extends Specification {
 
+    // TODO: split this up
     def 'Job tasks'() {
         given:
-        def job = JobDsl.job('foo', 'FOO') {
+        def job = job('foo', 'FOO') {
             tasks {
                 artifactDownloaderTask {
                     description 'bar'
@@ -118,5 +126,124 @@ class JobDslSpec extends Specification {
 
         then:
         props['tasks'].size() == 11
+    }
+
+    def 'Job requirements'() {
+        given:
+        def job = job('foo', 'FOO') {
+            requirement 'java'
+            requirement 'python'
+
+            requirements {
+                requirement 'xvfb'
+
+                requirement('operating.system') {
+                    matchType MatchType.EQUALS
+                    matchValue 'Linux'
+                }
+            }
+        }
+
+        when:
+        def props = toMap(job)
+
+        then:
+        props['requirements'].size() == 4
+        props['requirements'].every { it instanceof RequirementProperties }
+    }
+
+    def 'Job final tasks'() {
+        given:
+        def job = job('foo', 'FOO') {
+            finalTasks {
+                cleanWorkingDirectoryTask {
+                    description 'clean generated files'
+                    enabled true
+                }
+                scriptTask {
+                    inlineBody 'echo foo'
+                }
+            }
+        }
+
+        when:
+        def props = toMap(job)
+
+        then:
+        props['finalTasks'].size() == 2
+    }
+
+    def 'Job tasks and final tasks do not interfere with each other'() {
+        given:
+        def job = job('foo', 'FOO') {
+            tasks {
+                mavenTask {
+                    goal 'clean install'
+                    executableLabel 'Maven 3.2'
+                }
+            }
+
+            finalTasks {
+                cleanWorkingDirectoryTask {
+                    enabled true
+                }
+                scriptTask {
+                    inlineBody 'echo done'
+                }
+            }
+        }
+
+        when:
+        def props = toMap(job)
+
+        then:
+        props['tasks'].size() == 1
+        props['finalTasks'].size() == 2
+    }
+
+    def 'Job artifacts'() {
+        given:
+        def job = job('foo', 'FOO') {
+            artifacts {
+                artifact('Test Reports') {
+                    location 'target/reports'
+                    shared true
+                }
+                artifact {
+                    location 'target/reports'
+                    copyPattern '**/*.xml'
+                }
+                artifact 'WAR'
+            }
+        }
+
+        when:
+        def props = toMap(job)
+
+        then:
+        props['artifacts'].size() == 3
+        props['artifacts'].every { it instanceof ArtifactProperties }
+    }
+
+    def 'Job artifact subscriptions'() {
+        given:
+        def job = job('foo', 'FOO') {
+            artifactSuscriptions {
+                artifactSubscription {
+                    artifact 'WAR'
+                    destination 'deploy'
+                }
+                artifactSubscription {
+                    artifact 'JAR'
+                }
+            }
+        }
+
+        when:
+        def props = toMap(job)
+
+        then:
+        props['subscriptions'].size() == 2
+        props['subscriptions'].every { it instanceof ArtifactSubscriptionProperties }
     }
 }

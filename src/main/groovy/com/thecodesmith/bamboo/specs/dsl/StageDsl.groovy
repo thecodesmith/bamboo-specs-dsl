@@ -16,7 +16,7 @@ class StageDsl {
     }
 
     static Stage stage(String name, @DelegatesTo(StageDsl) Closure builder) {
-        call(new StageDsl(name), builder).stage
+        runWithDelegate(builder, new StageDsl(name)).stage
     }
 
     void jobs(Closure builder) {

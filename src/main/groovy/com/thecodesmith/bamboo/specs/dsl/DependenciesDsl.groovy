@@ -16,7 +16,11 @@ class DependenciesDsl {
         dependencies = new Dependencies()
     }
 
-    void configuration(Closure builder) {
+    static Dependencies dependencies(@DelegatesTo(DependenciesDsl) Closure builder) {
+        runWithDelegate(builder, new DependenciesDsl()).dependencies
+    }
+
+    void configuration(@DelegatesTo(DependenciesDsl) Closure builder) {
         runWithDelegate(builder, this)
     }
 

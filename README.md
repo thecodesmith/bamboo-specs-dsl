@@ -13,6 +13,9 @@ Configuration as code, made simple.
 way of ideas, suggestions and pull requests is very welcome. The plan is to get
 the API to a stable point and release version 1.0 as soon as possible.
 
+Usage examples will be written once the examples from Bamboo's documentation are
+fully implemented.
+
 
 ## Getting Started
 

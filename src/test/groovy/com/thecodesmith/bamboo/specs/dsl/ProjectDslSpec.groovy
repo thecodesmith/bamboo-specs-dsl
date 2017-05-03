@@ -1,7 +1,6 @@
 package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.api.builders.plan.Plan
-import com.thecodesmith.bamboo.specs.dsl.utils.TestUtils
 import spock.lang.Specification
 
 import static com.thecodesmith.bamboo.specs.dsl.ProjectDsl.project
