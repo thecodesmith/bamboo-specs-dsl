@@ -1,13 +1,9 @@
 package com.thecodesmith.bamboo.specs.dsl
 
-import com.atlassian.bamboo.specs.api.builders.plan.Plan
-import com.atlassian.bamboo.specs.api.builders.project.Project
 import com.atlassian.bamboo.specs.api.rsbs.RunnerSettings
 import com.atlassian.bamboo.specs.util.BambooServer
 import com.atlassian.bamboo.specs.util.BambooSpecSerializer
 import com.atlassian.bamboo.specs.api.builders.requirement.Requirement.MatchType
-import spock.lang.Shared
-import spock.lang.Specification
 
 import static com.thecodesmith.bamboo.specs.dsl.ProjectDsl.project
 import static com.thecodesmith.bamboo.specs.dsl.PlanDsl.plan

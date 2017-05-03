@@ -1,7 +1,5 @@
 package com.thecodesmith.bamboo.specs.dsl
 
-import com.atlassian.bamboo.specs.api.builders.plan.artifact.Artifact
-import com.atlassian.bamboo.specs.api.builders.requirement.Requirement
 import com.atlassian.bamboo.specs.api.builders.requirement.Requirement.MatchType
 import com.atlassian.bamboo.specs.api.model.plan.artifact.ArtifactProperties
 import com.atlassian.bamboo.specs.api.model.plan.artifact.ArtifactSubscriptionProperties

@@ -1,5 +1,9 @@
 package com.thecodesmith.bamboo.specs.dsl.utils
 
+import com.atlassian.bamboo.specs.api.builders.EntityPropertiesBuilder
+import com.atlassian.bamboo.specs.api.builders.plan.Plan
+import com.atlassian.bamboo.specs.util.BambooSpecSerializer
+
 /**
  * Helpful functions to reduce boilerplate for repeated patterns.
  *
@@ -75,5 +79,15 @@ class DslUtils {
         closure()
 
         delegate
+    }
+
+    /**
+     * Simple wrapper around BambooSpecSerializer.dump().
+     *
+     * @param plan
+     * @return
+     */
+    static String toYaml(EntityPropertiesBuilder entity) {
+        BambooSpecSerializer.dump(entity)
     }
 }
