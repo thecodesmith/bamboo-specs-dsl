@@ -25,18 +25,18 @@ configurations. The library is available through Bintray's JCenter.
 
 ### Grab
 
-    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.0')
+    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.1')
 
 ### Gradle
 
-    compile 'com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.0'
+    compile 'com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.1'
 
 ### Maven
 
     <dependency>
         <groupId>com.thecodesmith.bamboo</groupId>
         <artifactId>bamboo-specs-dsl</artifactId>
-        <version>0.10.0</version>
+        <version>0.10.1</version>
     </dependency>
 
 

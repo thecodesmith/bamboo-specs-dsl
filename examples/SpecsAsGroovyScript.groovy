@@ -1,4 +1,4 @@
-@Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.0')
+@Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.1')
 
 import com.atlassian.bamboo.specs.util.BambooServer
 import com.atlassian.bamboo.specs.util.BambooSpecSerializer
