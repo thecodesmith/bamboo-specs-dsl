@@ -40,6 +40,12 @@ configurations. The library is available through Bintray's JCenter.
     </dependency>
 
 
+## Troubleshooting
+
+Enable debug logging for the Bamboo Specs library by running with system
+property `-Dbamboo.specs.log.level=DEBUG`.
+
+
 ## Implemented Bamboo Specs Features
 
 This list shows the already supported features by the Bamboo Specs DSL.
@@ -54,11 +60,10 @@ documentation](https://docs.atlassian.com/bamboo-specs-docs/latest).
     - [x] Stages
     - [x] Linked repositories
     - [x] Plan repositories
-    - [ ] Triggers
+    - [x] Triggers
     - [ ] Plan branch management
-    - [ ] Dependencies
+    - [x] Dependencies
     - [x] Variables
-    - [ ] Permissions
     - [x] Enabled
 - [ ] Plan branches
     - [ ] Automatic branch management
@@ -75,16 +80,16 @@ documentation](https://docs.atlassian.com/bamboo-specs-docs/latest).
     - [x] Artifacts
     - [x] Artifact subscriptions
     - [x] Requirements
-- [ ] Tasks
-    - [ ] Artifact downloader
-    - [ ] Clean working directory
-    - [ ] Script
-    - [ ] Test results parser
-    - [ ] Repository checkout
-    - [ ] Maven
-    - [ ] Configuring unsupported tasks
-    - [ ] Build tasks
-    - [ ] Final tasks
+- [x] Tasks
+    - [x] Artifact downloader
+    - [x] Clean working directory
+    - [x] Script
+    - [x] Test results parser
+    - [x] Repository checkout
+    - [x] Maven
+    - [x] Configuring unsupported tasks using `AnyTask`
+    - [x] Build tasks
+    - [x] Final tasks
 - [ ] Repositories
     - [x] Multiple repositories
     - [x] Plan & linked repositories
@@ -93,23 +98,20 @@ documentation](https://docs.atlassian.com/bamboo-specs-docs/latest).
     - [ ] SVN
     - [ ] Mercurial
     - [ ] CVS
-- [ ] Artifacts
+- [x] Artifacts
     - [x] Defining an artifact
     - [x] Sharing an artifact
     - [x] Using a shared artifact in another job
-    - [ ] Using a shared artifact in another plan
-    - [ ] Sharing an artifact to a deployment plan
-- [ ] Build triggers
+    - [x] Using a shared artifact in another plan
+- [x] Build triggers
     - [x] Polling the repository for changes
     - [x] Repository triggers a build on commit
-    - [ ] Cron-based scheduling
-    - [ ] Conditional build triggers
-    - [ ] Running a build when another plan has completed successfully
-    - [ ] Multiple triggers
+    - [x] Cron-based scheduling
+    - [x] Running a build when another plan has completed successfully
+    - [x] Multiple triggers
     - [x] No triggers
-- [ ] Requirements
+- [x] Requirements
 - [x] Variables
-- [ ] Utilities
 
 
 ## Contributing
