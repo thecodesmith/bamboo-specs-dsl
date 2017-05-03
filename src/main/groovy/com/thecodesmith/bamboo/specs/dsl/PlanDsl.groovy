@@ -3,6 +3,7 @@ package com.thecodesmith.bamboo.specs.dsl
 import com.atlassian.bamboo.specs.api.builders.Variable
 import com.atlassian.bamboo.specs.api.builders.plan.Plan
 import com.atlassian.bamboo.specs.api.builders.plan.Stage
+import com.atlassian.bamboo.specs.api.builders.plan.branches.PlanBranchManagement
 import com.atlassian.bamboo.specs.api.builders.project.Project
 import com.atlassian.bamboo.specs.api.builders.trigger.Trigger
 
@@ -20,6 +21,14 @@ class PlanDsl {
 
     static Plan plan(Project project, String name, String key, @DelegatesTo(PlanDsl) Closure builder) {
         runWithDelegate(builder, new PlanDsl(project, name, key)).plan
+    }
+
+    PlanBranchManagement planBranchManagement(@DelegatesTo(PlanBranchManagementDsl) Closure builder) {
+        def dsl = new PlanBranchManagementDsl()
+        runWithDelegate(builder, dsl)
+        plan.planBranchManagement(dsl.planBranchManagement)
+
+        dsl.planBranchManagement
     }
 
     void stages(Closure builder) {

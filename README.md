@@ -55,22 +55,21 @@ documentation](https://docs.atlassian.com/bamboo-specs-docs/latest).
 - [x] Projects
     - [x] Description
     - [x] Plans
-- [ ] Plans
+- [x] Plans
     - [x] Description
     - [x] Stages
     - [x] Linked repositories
     - [x] Plan repositories
     - [x] Triggers
-    - [ ] Plan branch management
+    - [x] Plan branch management
     - [x] Dependencies
     - [x] Variables
     - [x] Enabled
-- [ ] Plan branches
-    - [ ] Automatic branch management
-    - [ ] Manual branch management
-    - [ ] Automatic branch merging
-    - [ ] Branch notifications
-    - [ ] Overriding branch settings
+- [x] Plan branches
+    - [x] Automatic branch management
+    - [x] Manual branch management
+    - [x] Automatic branch merging
+    - [x] Branch notifications
 - [x] Stages
     - [x] Description
     - [x] Jobs

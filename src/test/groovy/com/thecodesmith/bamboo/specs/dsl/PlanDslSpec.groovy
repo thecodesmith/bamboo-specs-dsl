@@ -1,8 +1,10 @@
 package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.api.builders.Variable
+import com.atlassian.bamboo.specs.api.builders.plan.branches.BranchCleanup
 import com.atlassian.bamboo.specs.api.builders.project.Project
 import com.atlassian.bamboo.specs.api.model.VariableProperties
+import com.atlassian.bamboo.specs.api.model.plan.branches.PlanBranchManagementProperties
 import com.atlassian.bamboo.specs.api.model.plan.dependencies.DependenciesProperties
 import com.atlassian.bamboo.specs.api.builders.plan.dependencies.DependenciesConfiguration.DependencyBlockingStrategy
 import spock.lang.Shared
@@ -129,6 +131,31 @@ class PlanDslSpec extends Specification {
         state      | isEnabled
         'enabled'  | true
         'disabled' | false
+    }
+
+    def 'Plan with automatic branch management'() {
+        given:
+        def plan = plan {
+            planBranchManagement {
+                createForVcsBranchMatching '^JIRA-[0-9]+'
+                triggerBuildsLikeParentPlan()
+                branchIntegration {
+                    integrationBranchKey 'MASTER'
+                    gatekeeper false
+                    pushOnSuccessfulBuild true
+                }
+                delete {
+                    whenRemovedFromRepository true
+                }
+                notificationForCommitters()
+            }
+        }
+
+        when:
+        def props = toMap(toMap(plan)['planBranchManagement'])
+
+        then:
+        props['triggeringOption'] == PlanBranchManagementProperties.TriggeringOption.INHERITED
     }
 
     def 'Plan with single stage'() {
