@@ -39,84 +39,90 @@ configurations. The library is available through Bintray's JCenter.
         <version>0.10.1</version>
     </dependency>
 
+### Requirements
+
+* Groovy is required to post plan definition to Bamboo. It can be installed
+  easily with [SDKMAN!](http://sdkman.io):
+
+    curl -s "https://get.sdkman.io" | bash
+    sdk install groovy
+
+### Optional Tools
+
+* IntelliJ IDEA or another IDE is helpful for code completion, but a text
+  editor works just fine
+
+
+## Minimalist Plan Definition
+
+    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.1')
+
+    import com.thecodesmith.bamboo.specs.dsl.ProjectDsl
+    import com.thecodesmith.bamboo.specs.dsl.PlanDsl
+
+    project = ProjectDsl.project('foo', 'FOO') {
+        description 'Project description here'
+    }
+
+    plan = PlanDsl.plan(project, 'bar', 'BAR') {
+        description 'Build and test the project'
+
+        planRepositories {
+            gitRepository {
+                name 'my-repo'
+                url 'ssh://git@bitbucket.org:my-company/my-repo.git'
+            }
+        }
+
+        stage('Build') {
+            job('Build WAR', 'WAR') {
+                tasks {
+                    mavenTask {
+                        goal 'clean package'
+                        jdk 'JDK 1.8'
+                        version3()
+                        executionLabel 'Maven 3.2'
+                        hasTests true
+                        testResultsPath '**/target/reports/*.xml'
+                    }
+                }
+            }
+        }
+    }
+
+
+## Posting Definition to Bamboo
+
+    BAMBOO_URL = 'https://bamboo.my-company.com'
+    BAMBOO_CREDENTIALS = new FileUserPasswordCredentials()
+
+    server = new BambooServer(BAMBOO_URL, BAMBOO_CREDENTIALS)
+    server.publish(plan)
+
 
 ## Troubleshooting
+
+This line can be used to print the generated YAML for a Plan definition:
+
+    println BambooSpecSerializer.dump(plan)
 
 Enable debug logging for the Bamboo Specs library by running with system
 property `-Dbamboo.specs.log.level=DEBUG`.
 
 
-## Implemented Bamboo Specs Features
+## Implementation Status
 
-This list shows the already supported features by the Bamboo Specs DSL.
-This list of features is taken directly from the [Bamboo Specs
-documentation](https://docs.atlassian.com/bamboo-specs-docs/latest).
-
-- [x] Projects
-    - [x] Description
-    - [x] Plans
-- [x] Plans
-    - [x] Description
-    - [x] Stages
-    - [x] Linked repositories
-    - [x] Plan repositories
-    - [x] Triggers
-    - [x] Plan branch management
-    - [x] Dependencies
-    - [x] Variables
-    - [x] Enabled
-- [x] Plan branches
-    - [x] Automatic branch management
-    - [x] Manual branch management
-    - [x] Automatic branch merging
-    - [x] Branch notifications
-- [x] Stages
-    - [x] Description
-    - [x] Jobs
-    - [x] Manual
-- [x] Jobs
-    - [x] Tasks
-    - [x] Artifacts
-    - [x] Artifact subscriptions
-    - [x] Requirements
-- [x] Tasks
-    - [x] Artifact downloader
-    - [x] Clean working directory
-    - [x] Script
-    - [x] Test results parser
-    - [x] Repository checkout
-    - [x] Maven
-    - [x] Configuring unsupported tasks using `AnyTask`
-    - [x] Build tasks
-    - [x] Final tasks
-- [ ] Repositories
-    - [x] Multiple repositories
-    - [x] Plan & linked repositories
-    - [x] Git repositories
-    - [x] Bitbucket Server Git repositories
-    - [ ] SVN
-    - [ ] Mercurial
-    - [ ] CVS
-- [x] Artifacts
-    - [x] Defining an artifact
-    - [x] Sharing an artifact
-    - [x] Using a shared artifact in another job
-    - [x] Using a shared artifact in another plan
-- [x] Build triggers
-    - [x] Polling the repository for changes
-    - [x] Repository triggers a build on commit
-    - [x] Cron-based scheduling
-    - [x] Running a build when another plan has completed successfully
-    - [x] Multiple triggers
-    - [x] No triggers
-- [x] Requirements
-- [x] Variables
+The DSL currently supports all features listed in the Bamboo Specs [official
+documentation](https://docs.atlassian.com/bamboo-specs-docs/latest) are
+implemented. If you find any missing features, please let me know by opening an
+issue.
 
 
 ## Contributing
 
 Pull requests are welcome! If there is a feature that is not yet implemented,
 create a pull request and I will work to get it merged into the project.
+Reporting issues is a big help as well.
 
 
 ## License

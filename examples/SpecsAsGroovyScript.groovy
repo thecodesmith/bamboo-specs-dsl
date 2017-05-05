@@ -23,10 +23,32 @@ plan = plan(project, 'bar', 'BAR') {
 
     stages {
         stage('Build') {
+            jobs {
+                job('Build WAR', 'BUILD') {
+                    requirements {
+                        requirement 'java'
+                        requirement('operating.system') {
+                            matchType MatchType.EQUALS
+                            matchValue 'Linux'
+                        }
+                    }
 
+                    tasks {
+                        mavenTask {
+                            goal 'clean package'
+                            jdk 'JDK 1.8'
+                            version3()
+                            executionLabel 'Maven 3.2'
+                            hasTests true
+                            testResultsPath '**/target/reports/*.xml'
+                        }
+                    }
+                }
+            }
         }
-        stage('Test') {
 
+        stage('Test') {
+            // ...
         }
     }
 }
