@@ -124,9 +124,8 @@ property `-Dbamboo.specs.log.level=DEBUG`.
 ## Implementation Status
 
 The DSL currently supports all features listed in the Bamboo Specs [official
-documentation](https://docs.atlassian.com/bamboo-specs-docs/latest) are
-implemented. If you find any missing features, please let me know by opening an
-issue.
+documentation](https://docs.atlassian.com/bamboo-specs-docs/latest). If you find
+any missing features, please let me know by opening an issue.
 
 
 ## Contributing
