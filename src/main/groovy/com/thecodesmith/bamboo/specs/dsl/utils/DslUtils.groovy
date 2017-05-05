@@ -1,14 +1,15 @@
 package com.thecodesmith.bamboo.specs.dsl.utils
 
 import com.atlassian.bamboo.specs.api.builders.EntityPropertiesBuilder
-import com.atlassian.bamboo.specs.api.builders.plan.Plan
 import com.atlassian.bamboo.specs.util.BambooSpecSerializer
+import groovy.transform.CompileStatic
 
 /**
  * Helpful functions to reduce boilerplate for repeated patterns.
  *
  * @author Brian Stewart
  */
+@CompileStatic
 class DslUtils {
 
     /**

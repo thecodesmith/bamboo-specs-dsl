@@ -4,12 +4,14 @@ import com.atlassian.bamboo.specs.api.builders.trigger.Trigger
 import com.atlassian.bamboo.specs.builders.trigger.RemoteTrigger
 import com.atlassian.bamboo.specs.builders.trigger.RepositoryPollingTrigger
 import com.atlassian.bamboo.specs.builders.trigger.ScheduledTrigger
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.buildAndCall
 
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class TriggerDsl {
     List<Trigger> triggers = []
 

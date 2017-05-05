@@ -4,6 +4,7 @@ import com.atlassian.bamboo.specs.api.builders.credentials.SharedCredentialsIden
 import com.atlassian.bamboo.specs.builders.repository.git.GitRepository
 import com.atlassian.bamboo.specs.builders.repository.git.SshPrivateKeyAuthentication
 import com.atlassian.bamboo.specs.builders.repository.git.UserPasswordAuthentication
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.buildAndCall
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.call
@@ -11,6 +12,7 @@ import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.call
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class GitRepositoryAuthenticationDsl {
     @Delegate GitRepository repository
 

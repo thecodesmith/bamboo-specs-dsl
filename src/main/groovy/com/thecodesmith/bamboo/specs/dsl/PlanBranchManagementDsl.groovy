@@ -3,12 +3,14 @@ package com.thecodesmith.bamboo.specs.dsl
 import com.atlassian.bamboo.specs.api.builders.plan.branches.BranchCleanup
 import com.atlassian.bamboo.specs.api.builders.plan.branches.BranchIntegration
 import com.atlassian.bamboo.specs.api.builders.plan.branches.PlanBranchManagement
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.buildAndCall
 
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class PlanBranchManagementDsl {
     @Delegate PlanBranchManagement planBranchManagement
 

@@ -2,6 +2,7 @@ package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.builders.task.CheckoutItem
 import com.atlassian.bamboo.specs.builders.task.VcsCheckoutTask
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.buildAndCall
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.runWithDelegate
@@ -9,6 +10,7 @@ import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.runWithDelegate
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class VcsCheckoutTaskDsl {
     @Delegate VcsCheckoutTask task
 

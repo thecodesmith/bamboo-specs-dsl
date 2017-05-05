@@ -5,12 +5,14 @@ import com.atlassian.bamboo.specs.api.builders.plan.artifact.Artifact
 import com.atlassian.bamboo.specs.api.builders.plan.artifact.ArtifactSubscription
 import com.atlassian.bamboo.specs.api.builders.requirement.Requirement
 import com.atlassian.bamboo.specs.api.builders.task.Task
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class JobDsl {
     @Delegate Job job
 

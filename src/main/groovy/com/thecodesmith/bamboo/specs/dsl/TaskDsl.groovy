@@ -14,12 +14,14 @@ import com.atlassian.bamboo.specs.builders.task.SshTask
 import com.atlassian.bamboo.specs.builders.task.TestParserTask
 import com.atlassian.bamboo.specs.builders.task.VcsCheckoutTask
 import com.atlassian.bamboo.specs.model.task.TestParserTaskProperties.TestType
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class TaskDsl {
     List<Task> tasks = []
 

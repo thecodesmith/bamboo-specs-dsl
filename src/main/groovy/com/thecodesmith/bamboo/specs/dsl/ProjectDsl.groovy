@@ -2,12 +2,14 @@ package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.api.builders.plan.Plan
 import com.atlassian.bamboo.specs.api.builders.project.Project
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
 
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class ProjectDsl {
     @Delegate Project project
 

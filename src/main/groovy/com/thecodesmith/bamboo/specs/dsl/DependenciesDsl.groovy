@@ -2,6 +2,7 @@ package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.api.builders.plan.dependencies.Dependencies
 import com.atlassian.bamboo.specs.api.builders.plan.dependencies.DependenciesConfiguration
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.buildAndCall
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.runWithDelegate
@@ -9,6 +10,7 @@ import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.runWithDelegate
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class DependenciesDsl {
     @Delegate Dependencies dependencies
 

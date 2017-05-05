@@ -3,6 +3,7 @@ package com.thecodesmith.bamboo.specs.dsl
 import com.atlassian.bamboo.specs.api.builders.applink.ApplicationLink
 import com.atlassian.bamboo.specs.api.builders.repository.VcsChangeDetection
 import com.atlassian.bamboo.specs.builders.repository.bitbucket.server.BitbucketServerRepository
+import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.buildAndCall
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.runWithDelegate
@@ -10,6 +11,7 @@ import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.runWithDelegate
 /**
  * @author Brian Stewart
  */
+@CompileStatic
 class BitbucketServerRepositoryDsl {
     @Delegate BitbucketServerRepository repository = new BitbucketServerRepository()
 
