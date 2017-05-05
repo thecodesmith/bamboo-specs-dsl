@@ -55,6 +55,8 @@ configurations. The library is available through Bintray's JCenter.
 
 ## Minimalist Plan Definition
 
+Create a Groovy script, for example named `BambooPlan.groovy`:
+
     @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.1')
 
     import com.thecodesmith.bamboo.specs.dsl.ProjectDsl
@@ -93,11 +95,20 @@ configurations. The library is available through Bintray's JCenter.
 
 ## Posting Definition to Bamboo
 
+Add this to the bottom of the definition script:
+
     BAMBOO_URL = 'https://bamboo.my-company.com'
     BAMBOO_CREDENTIALS = new FileUserPasswordCredentials()
 
     server = new BambooServer(BAMBOO_URL, BAMBOO_CREDENTIALS)
     server.publish(plan)
+
+This code could be extracted to a separate file if needed to run multiple plan
+definitions.
+
+Then run the script:
+
+    groovy BambooPlan.groovy
 
 
 ## Troubleshooting
