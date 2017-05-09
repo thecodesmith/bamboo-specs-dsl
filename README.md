@@ -44,8 +44,10 @@ configurations. The library is available through Bintray's JCenter.
 * Groovy is required to post plan definition to Bamboo. It can be installed
   easily with [SDKMAN!](http://sdkman.io):
 
+```
     curl -s "https://get.sdkman.io" | bash
     sdk install groovy
+```
 
 ### Optional Tools
 
