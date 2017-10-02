@@ -25,25 +25,24 @@ configurations. The library is available through Bintray's JCenter.
 
 ### Grab
 
-    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.1')
+    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.2')
 
 ### Gradle
 
-    compile 'com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.1'
+    compile 'com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.2'
 
 ### Maven
 
     <dependency>
         <groupId>com.thecodesmith.bamboo</groupId>
         <artifactId>bamboo-specs-dsl</artifactId>
-        <version>0.10.1</version>
+        <version>0.10.2</version>
     </dependency>
 
 ### Requirements
 
 * Groovy is required to post plan definition to Bamboo. It can be installed
   easily with [SDKMAN!](http://sdkman.io):
-
 ```
     curl -s "https://get.sdkman.io" | bash
     sdk install groovy
@@ -59,7 +58,7 @@ configurations. The library is available through Bintray's JCenter.
 
 Create a Groovy script, for example named `BambooPlan.groovy`:
 
-    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.1')
+    @Grab('com.thecodesmith.bamboo:bamboo-specs-dsl:0.10.2')
 
     import com.thecodesmith.bamboo.specs.dsl.ProjectDsl
     import com.thecodesmith.bamboo.specs.dsl.PlanDsl

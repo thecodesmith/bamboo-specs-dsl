@@ -56,7 +56,7 @@ class PlanDslSpec extends Specification {
         props['triggers'] == []
         props['variables'] == []
         props['enabled'] == true
-        props['dependencies'] == GroovyMock(DependenciesProperties)
+        props['dependencies'] == [:] as DependenciesProperties
     }
 
     def 'Plan description'() {
