@@ -4,6 +4,8 @@ import com.atlassian.bamboo.specs.api.builders.docker.DockerConfiguration
 import com.atlassian.bamboo.specs.api.builders.plan.Job
 import com.atlassian.bamboo.specs.api.builders.plan.artifact.Artifact
 import com.atlassian.bamboo.specs.api.builders.plan.artifact.ArtifactSubscription
+import com.atlassian.bamboo.specs.api.builders.plan.configuration.AllOtherPluginsConfiguration
+import com.atlassian.bamboo.specs.api.builders.plan.configuration.PluginConfiguration
 import com.atlassian.bamboo.specs.api.builders.requirement.Requirement
 import com.atlassian.bamboo.specs.api.builders.task.Task
 import groovy.transform.CompileStatic
@@ -86,5 +88,11 @@ class JobDsl {
         job.dockerConfiguration(dsl)
 
         dsl
+    }
+
+    void pluginConfigurations(@DelegatesTo(PluginConfigurationDsl) Closure builder) {
+        def dsl = new PluginConfigurationDsl()
+        runWithDelegate(builder, dsl)
+        job.pluginConfigurations(dsl.configurations as PluginConfiguration[])
     }
 }

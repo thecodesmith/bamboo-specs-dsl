@@ -1,10 +1,13 @@
 package com.thecodesmith.bamboo.specs.dsl
 
+import com.atlassian.bamboo.specs.api.builders.plan.configuration.AllOtherPluginsConfiguration
 import com.atlassian.bamboo.specs.api.builders.requirement.Requirement.MatchType
 import com.atlassian.bamboo.specs.api.model.plan.artifact.ArtifactProperties
 import com.atlassian.bamboo.specs.api.model.plan.artifact.ArtifactSubscriptionProperties
+import com.atlassian.bamboo.specs.api.model.plan.configuration.AllOtherPluginsConfigurationProperties
 import com.atlassian.bamboo.specs.api.model.plan.requirement.RequirementProperties
 import com.atlassian.bamboo.specs.model.task.TestParserTaskProperties
+import com.atlassian.bamboo.specs.util.MapBuilder
 import spock.lang.Specification
 
 import static com.thecodesmith.bamboo.specs.dsl.JobDsl.job
@@ -285,5 +288,48 @@ class JobDslSpec extends Specification {
         props['dockerConfiguration']['volumes'].size() == 2
         props['dockerConfiguration']['volumes']['/var/run/docker.sock'] == '/var/run/docker.sock'
         props['dockerConfiguration']['volumes']['/root/.docker/config.json'] == '/root/.docker/config.json'
+    }
+
+    def 'Job miscellaneous plugins configuration'() {
+        given:
+        def job = job('foo', 'FOO') {
+            pluginConfigurations {
+                custom 'clover', [
+                        path: 'results',
+                        license: '',
+                        integration: 'custom',
+                        exists: 'true',
+                        useLocalLicenseKey: 'true'
+                ]
+            }
+        }
+
+        when:
+        def props = toMap(job)['pluginConfigurations']['com.atlassian.bamboo:#allotherplugins'] as AllOtherPluginsConfigurationProperties
+        def config = props['configuration'] as Map
+
+        then:
+        config['clover'] instanceof Map
+        config['clover']['path'] == 'results'
+        config['clover']['license'] == ''
+        config['clover']['integration'] == 'custom'
+        config['clover']['exists'] == 'true'
+        config['clover']['useLocalLicenseKey'] == 'true'
+
+        and: 'DSL generates same object as documented reference: https://docs.atlassian.com/bamboo-specs-docs/6.8.0/specs-java.html#miscellaneous-plugins'
+        def reference = new AllOtherPluginsConfiguration()
+                .configuration(new MapBuilder()
+                    .put("custom", new MapBuilder()
+                        .put("clover", new MapBuilder()
+                            .put("path", "results")
+                            .put("license", "")
+                            .put("integration", "custom")
+                            .put("exists", "true")
+                            .put("useLocalLicenseKey", "true")
+                            .build())
+                        .build())
+                    .build())
+
+        reference.build().configuration['custom']['clover'] == props.configuration['clover']
     }
 }

@@ -4,8 +4,10 @@ import com.atlassian.bamboo.specs.api.builders.Variable
 import com.atlassian.bamboo.specs.api.builders.plan.Plan
 import com.atlassian.bamboo.specs.api.builders.plan.Stage
 import com.atlassian.bamboo.specs.api.builders.plan.branches.PlanBranchManagement
+import com.atlassian.bamboo.specs.api.builders.plan.configuration.PluginConfiguration
 import com.atlassian.bamboo.specs.api.builders.project.Project
 import com.atlassian.bamboo.specs.api.builders.trigger.Trigger
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
 import static com.thecodesmith.bamboo.specs.dsl.utils.DslUtils.*
@@ -75,5 +77,11 @@ class PlanDsl {
         def dsl = new DependenciesDsl()
         runWithDelegate(builder, dsl)
         plan.dependencies(dsl.dependencies)
+    }
+
+    void pluginConfigurations(@DelegatesTo(PluginConfigurationDsl) Closure builder) {
+        def dsl = new PluginConfigurationDsl()
+        runWithDelegate(builder, dsl)
+        plan.pluginConfigurations(dsl.configurations as PluginConfiguration[])
     }
 }

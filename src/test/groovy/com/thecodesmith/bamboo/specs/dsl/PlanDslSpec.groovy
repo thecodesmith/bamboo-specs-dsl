@@ -1,12 +1,16 @@
 package com.thecodesmith.bamboo.specs.dsl
 
 import com.atlassian.bamboo.specs.api.builders.Variable
+import com.atlassian.bamboo.specs.api.builders.plan.Plan
 import com.atlassian.bamboo.specs.api.builders.plan.branches.BranchCleanup
+import com.atlassian.bamboo.specs.api.builders.plan.configuration.AllOtherPluginsConfiguration
 import com.atlassian.bamboo.specs.api.builders.project.Project
 import com.atlassian.bamboo.specs.api.model.VariableProperties
 import com.atlassian.bamboo.specs.api.model.plan.branches.PlanBranchManagementProperties
+import com.atlassian.bamboo.specs.api.model.plan.configuration.AllOtherPluginsConfigurationProperties
 import com.atlassian.bamboo.specs.api.model.plan.dependencies.DependenciesProperties
 import com.atlassian.bamboo.specs.api.builders.plan.dependencies.DependenciesConfiguration.DependencyBlockingStrategy
+import com.atlassian.bamboo.specs.util.MapBuilder
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -272,5 +276,43 @@ class PlanDslSpec extends Specification {
         true    | false   | DependencyBlockingStrategy.BLOCK_IF_PARENT_IN_PROGRESS
         false   | true    | DependencyBlockingStrategy.BLOCK_IF_PARENT_IN_PROGRESS
         false   | false   | DependencyBlockingStrategy.BLOCK_IF_PARENT_IN_PROGRESS
+    }
+
+    def 'Plan miscellaneous plugins configuration'() {
+        given:
+        def plan = plan {
+            pluginConfigurations {
+                custom 'misc', [
+                        'artifactHandlers.useCustomArtifactHandlers': 'false',
+                        buildExpiryConfig: [
+                                duration: '1',
+                                period: 'days'
+                        ]
+                ]
+            }
+        }
+
+        when:
+        def props = toMap(plan)['pluginConfigurations']['com.atlassian.bamboo:#allotherplugins'] as AllOtherPluginsConfigurationProperties
+        def config = props['configuration'] as Map
+
+        then:
+        config['misc'] instanceof Map
+        config['misc']['artifactHandlers.useCustomArtifactHandlers'] == 'false'
+        config['misc']['buildExpiryConfig'] == [duration: '1', period: 'days']
+
+        and: 'DSL generates same object as documented reference: https://docs.atlassian.com/bamboo-specs-docs/6.8.0/specs-java.html#miscellaneous-plugins'
+        def reference = new AllOtherPluginsConfiguration()
+                .configuration(new MapBuilder()
+                    .put("custom", new MapBuilder()
+                        .put("artifactHandlers.useCustomArtifactHandlers", "false")
+                            .put("buildExpiryConfig", new MapBuilder()
+                            .put("duration", "1")
+                            .put("period", "days")
+                            .build())
+                        .build())
+                    .build())
+
+        reference.build().configuration['custom'] == props.configuration['misc']
     }
 }
