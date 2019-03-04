@@ -244,4 +244,46 @@ class JobDslSpec extends Specification {
         props['subscriptions'].size() == 2
         props['subscriptions'].every { it instanceof ArtifactSubscriptionProperties }
     }
+
+    def 'Job Docker configuration'() {
+        given:
+        def job = job('foo', 'FOO') {
+            dockerConfiguration {
+                image 'golang'
+            }
+        }
+
+        when:
+        def props = toMap(job)
+
+        then:
+        props['dockerConfiguration']['enabled'] == true
+        props['dockerConfiguration']['image'] == 'golang'
+        props['dockerConfiguration']['volumes'].size() == 2
+        props['dockerConfiguration']['volumes']['${bamboo.working.directory}'] == '${bamboo.working.directory}'
+        props['dockerConfiguration']['volumes']['${bamboo.tmp.directory}'] == '${bamboo.tmp.directory}'
+    }
+
+    def 'Job Docker configuration with options'() {
+        given:
+        def job = job('foo', 'FOO') {
+            dockerConfiguration {
+                image 'golang'
+                volume '/var/run/docker.sock', '/var/run/docker.sock'
+                volume '/root/.docker/config.json', '/root/.docker/config.json'
+                withoutDefaultVolumes()
+                enabled false
+            }
+        }
+
+        when:
+        def props = toMap(job)
+
+        then:
+        props['dockerConfiguration']['enabled'] == false
+        props['dockerConfiguration']['image'] == 'golang'
+        props['dockerConfiguration']['volumes'].size() == 2
+        props['dockerConfiguration']['volumes']['/var/run/docker.sock'] == '/var/run/docker.sock'
+        props['dockerConfiguration']['volumes']['/root/.docker/config.json'] == '/root/.docker/config.json'
+    }
 }

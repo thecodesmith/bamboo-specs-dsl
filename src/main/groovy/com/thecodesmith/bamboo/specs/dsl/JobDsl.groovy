@@ -1,5 +1,6 @@
 package com.thecodesmith.bamboo.specs.dsl
 
+import com.atlassian.bamboo.specs.api.builders.docker.DockerConfiguration
 import com.atlassian.bamboo.specs.api.builders.plan.Job
 import com.atlassian.bamboo.specs.api.builders.plan.artifact.Artifact
 import com.atlassian.bamboo.specs.api.builders.plan.artifact.ArtifactSubscription
@@ -76,5 +77,14 @@ class JobDsl {
 
     ArtifactSubscription artifactSubscription(@DelegatesTo(ArtifactSubscription) Closure builder) {
         buildAndCall(new ArtifactSubscription(), builder, job.&artifactSubscriptions)
+    }
+
+    DockerConfiguration dockerConfiguration(@DelegatesTo(DockerConfiguration) Closure builder) {
+        def dsl = new DockerConfiguration()
+
+        runWithDelegate(builder, dsl)
+        job.dockerConfiguration(dsl)
+
+        dsl
     }
 }
